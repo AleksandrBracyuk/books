@@ -15,6 +15,8 @@ import { GenreService } from '../shared/genre.service';
 export class ShowAllComponent implements OnInit {
 
   authors: Author[] = [];
+  newAuthor: Author;
+  editAuthor: Author;
   books: Book[] = [];
   genres: string[] = [];
 
@@ -26,6 +28,11 @@ export class ShowAllComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.refreshAuthors();
+    this.refreshBooks();
+    this.refreshGenres();
+  }
+  refreshAuthors() {
     this.authorService.list().subscribe({
       next: (result: Author[]) => {
         this.authors = result;
@@ -37,7 +44,8 @@ export class ShowAllComponent implements OnInit {
       complete: () => { console.log("completed") }
     }
     );
-
+  }
+  refreshBooks() {
     this.bookService.list().subscribe({
       next: (result: Book[]) => {
         this.books = result;
@@ -49,7 +57,8 @@ export class ShowAllComponent implements OnInit {
       complete: () => { console.log("completed") }
     }
     );
-
+  }
+  refreshGenres() {
     this.genreService.list().subscribe({
       next: (result: string[]) => {
         this.genres = result;
@@ -61,7 +70,60 @@ export class ShowAllComponent implements OnInit {
       complete: () => { console.log("completed") }
     }
     );
+  }
 
+  add() {
+    let author: Author = new Author();
+    author.surname = this.newAuthor.surname;
+    author.name = this.newAuthor.name;
+    author.patronymic = this.newAuthor.patronymic;
+    author.dateBirth = this.newAuthor.dateBirth;
+    author.bookList = this.newAuthor.bookList;
+    this.authorService.add(author).subscribe({
+      next: (result: Author) => {
+        this.refreshAuthors();
+        console.log(`получен новый автор: ${result.id}`)
+      },
+      error: error => {
+        console.error("AuthorService add error", error);
+      },
+      complete: () => { console.log("completed") }
+    }
+    );
+  }
+
+  edit() {
+    let author: Author = new Author();
+    author.surname = this.editAuthor.surname;
+    author.name = this.editAuthor.name;
+    author.patronymic = this.editAuthor.patronymic;
+    author.dateBirth = this.editAuthor.dateBirth;
+    author.bookList = this.editAuthor.bookList;
+    this.authorService.edit(author).subscribe({
+      next: (result: Author) => {
+        this.refreshAuthors();
+        console.log(`отредактирован автор: ${result.id}`)
+      },
+      error: error => {
+        console.error("AuthorService edit error", error);
+      },
+      complete: () => { console.log("completed") }
+    }
+    );
+  }
+
+  delete(author: Author) {
+    this.authorService.edit(author).subscribe({
+      next: (result: Author) => {
+        this.refreshAuthors();
+        console.log(`удален автор: ${result.id}`)
+      },
+      error: error => {
+        console.error("AuthorService delete error", error);
+      },
+      complete: () => { console.log("completed") }
+    }
+    );
   }
 
   createTestData() {
