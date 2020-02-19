@@ -2,6 +2,9 @@ import { Book } from './book';
 
 export class Author {
 
+    //уникальный идентификатор автора
+    id: number;
+
     //Фамилия(текст, обязательное)
     surname: string;
 

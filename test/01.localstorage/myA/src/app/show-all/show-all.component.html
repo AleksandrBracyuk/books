@@ -5,9 +5,9 @@
 </div>
 <div>
     <h1>Авторы</h1>
-
     <ul>
         <li *ngFor="let author of authors">
+            <p>id: {{author.id}}</p>
             <p>Фамилия: {{author.surname}}</p>
             <p>Имя: {{author.name}}</p>
             <p>Отчество: {{author.patronymic}}</p>
@@ -27,6 +27,7 @@
 <div>
     <h1>Книги</h1>
     <div *ngFor="let book of books">
+        <p>id: {{book.id}}</p>
         <p>Название: {{book.title}}</p>
         <p>Количество страниц: {{book.numberPages | number}}</p>
         <p>Жанр: {{book.genre}}</p>
