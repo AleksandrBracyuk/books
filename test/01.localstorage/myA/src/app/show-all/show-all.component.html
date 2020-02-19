@@ -1,0 +1,40 @@
+<p>show-all works!</p>
+
+<div>
+    <button type="button" (click)="createTestData()">create test data </button>
+</div>
+<div>
+    <h1>Автора</h1>
+    <ul>
+        <li *ngFor="let author of authors">
+            <p>Фамилия: {{author.surname}}</p>
+            <p>Имя: {{author.name}}</p>
+            <p>Отчество: {{author.patronymic}}</p>
+            <p>Дата рождения: {{author.dateBirth | date:"dd.MM.yyyy" }}</p>
+            <ul>
+                <span>Список книг</span>
+                <li *ngFor="let book of author.bookList">
+                    <p>Название: {{book.title}}</p>
+                    <p>Количество страниц: {{book.numberPages | number}}</p>
+                    <p>Жанр: {{book.genre}}</p>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <h1>Книги</h1>
+    <div *ngFor="let book of books">
+        <p>Название: {{book.title}}</p>
+        <p>Количество страниц: {{book.numberPages | number}}</p>
+        <p>Жанр: {{book.genre}}</p>
+    </div>
+</div>
+
+<div>
+    <h1>Жанры</h1>
+    <div *ngFor="let genre of genres">
+        <p>Жанр: {{genre}}</p>
+    </div>
+</div>
