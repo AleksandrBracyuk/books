@@ -13,12 +13,12 @@ export class TestService {
   //вписать тестовые данные в localstorage
   createTestData() {
     let genre: string[] = [];
-    for (let g = 0; g < 7; g++) {
+    for (let g = 0; g < 3; g++) {
       genre.push(`Genre-${g}`)
     }
 
     let authors: Author[] = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 2; i++) {
       let author = new Author();
       author.surname = `Surname-${i}`;
       author.name = `Name-${i}`;
