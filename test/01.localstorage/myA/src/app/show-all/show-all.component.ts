@@ -15,8 +15,9 @@ import { GenreService } from '../shared/genre.service';
 export class ShowAllComponent implements OnInit {
 
   authors: Author[] = [];
-  newAuthor: Author;
   editAuthor: Author;
+  isEditNew: boolean = true;
+
   books: Book[] = [];
   genres: string[] = [];
 
@@ -28,10 +29,15 @@ export class ShowAllComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.refreshAll();
+  }
+  refreshAll() {
+    this.editAuthor = new Author();
     this.refreshAuthors();
     this.refreshBooks();
     this.refreshGenres();
   }
+
   refreshAuthors() {
     this.authorService.list().subscribe({
       next: (result: Author[]) => {
@@ -73,12 +79,32 @@ export class ShowAllComponent implements OnInit {
   }
 
   add() {
+    this.editAuthor = new Author();
+    this.isEditNew = true;
+  }
+  addBook() {
+    this.editAuthor.bookList.unshift(new Book());
+  }
+
+  deleteBook(book: Book) {
+    let deleteItemIndex: number = undefined;
+    for (let i = 0; i < this.editAuthor.bookList.length; i++) {
+      if (this.editAuthor.bookList[i] === book) {
+        deleteItemIndex = i;
+        break;
+      }
+    }
+    if (deleteItemIndex) {
+      this.editAuthor.bookList.splice(deleteItemIndex, 1);
+    }
+  }
+  addSave() {
     let author: Author = new Author();
-    author.surname = this.newAuthor.surname;
-    author.name = this.newAuthor.name;
-    author.patronymic = this.newAuthor.patronymic;
-    author.dateBirth = this.newAuthor.dateBirth;
-    author.bookList = this.newAuthor.bookList;
+    author.surname = this.editAuthor.surname;
+    author.name = this.editAuthor.name;
+    author.patronymic = this.editAuthor.patronymic;
+    author.dateBirth = this.editAuthor.dateBirth;
+    author.bookList = this.editAuthor.bookList;
     this.authorService.add(author).subscribe({
       next: (result: Author) => {
         this.refreshAuthors();
@@ -92,7 +118,11 @@ export class ShowAllComponent implements OnInit {
     );
   }
 
-  edit() {
+  edit(author: Author) {
+    this.editAuthor = author;
+    this.isEditNew = false;
+  }
+  editSave() {
     let author: Author = new Author();
     author.surname = this.editAuthor.surname;
     author.name = this.editAuthor.name;
@@ -112,7 +142,7 @@ export class ShowAllComponent implements OnInit {
     );
   }
 
-  delete(author: Author) {
+  deleteSave(author: Author) {
     this.authorService.edit(author).subscribe({
       next: (result: Author) => {
         this.refreshAuthors();

@@ -1,42 +1,127 @@
-<p>show-all works!</p>
+<div class="main">
+    <div class="left-commant">
 
-<div>
-    <button type="button" (click)="createTestData()">create test data </button>
-</div>
-<div>
-    <h1>Авторы</h1>
-    <ul>
-        <li *ngFor="let author of authors">
-            <p>id: {{author.id}}</p>
-            <p>Фамилия: {{author.surname}}</p>
-            <p>Имя: {{author.name}}</p>
-            <p>Отчество: {{author.patronymic}}</p>
-            <p>Дата рождения: {{author.dateBirth | date:"dd.MM.yyyy" }}</p>
+        <div>
+            <button type="button" (click)="createTestData()">recreate test data </button>
+            <button type="button" (click)="refreshAll()">перечитать все</button>
+        </div>
+
+        <div class="edit-author">
+            <form novalidate>
+                <h5>редактирование автора</h5>
+                <div class="form-group">
+                    <label for="surname">Фамилия: </label>
+                    <input id="surname" class="form-control" name="surname" [(ngModel)]="editAuthor.surname"
+                        #surname="ngModel" required />
+                    <div [hidden]="surname.valid || surname.untouched" class="alert-danger">
+                        Не указана фамилия.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name">Имя: </label>
+                    <input id="name" class="form-control" name="name" [(ngModel)]="editAuthor.name" #name="ngModel"
+                        required />
+                    <div [hidden]="name.valid || name.untouched" class="alert-danger">
+                        Не указано имя.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="patronymic">Отчество: </label>
+                    <input id="patronymic" class="form-control" name="patronymic" [(ngModel)]="editAuthor.patronymic"
+                        #patronymic="ngModel" required />
+                    <div [hidden]="patronymic.valid || patronymic.untouched" class="alert-danger">
+                        Не указано отчество.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dateBirth">Дата рождения: </label>
+                    <input id="dateBirth" class="form-control" name="dateBirth" [(ngModel)]="editAuthor.dateBirth"
+                        #dateBirth="ngModel" required />
+                    <div [hidden]="dateBirth.valid || dateBirth.untouched" class="alert-danger">
+                        Не указана дата рождения.
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="bookList">Список книг: </label><button type="button" (click)="addBook()">add</button>
+                    <div class="booklist author-cart-books-edit">
+
+                        <div class="author-cart-book" *ngFor="let book of editAuthor.bookList">
+                            <button type="button" (click)="deleteBook()">delete</button>
+                            <div class="form-group">
+                                <label for="title">Название: </label>
+                                <input id="title" class="form-control" name="booktitle" [(ngModel)]="book.title"
+                                    #title="ngModel" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="numberPages">Количество страниц: </label>
+                                <input id="numberPages" class="form-control" name="numberPages"
+                                    [(ngModel)]="book.numberPages" #numberPages="ngModel" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="genre">Жанр: </label>
+                                <input id="genre" class="form-control" name="genre" [(ngModel)]="book.genre"
+                                    #genre="ngModel" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <button *ngIf="isEditNew" type="button" (click)="addSave()">сохранить (новый)</button>
+        <button *ngIf="!isEditNew" type="button" (click)="editSave()">сохранить (редактируется)</button>
+    </div>
+    <div class="center-data">
+
+        <h5>Авторы</h5>
+        <button type="button" (click)="add()">add</button>
+        <button type="button" (click)="refreshAuthors()">refresh</button>
+        <div class="authors">
             <ul>
-                <span>Список книг</span>
-                <li *ngFor="let book of author.bookList">
-                    <p>Название: {{book.title}}</p>
-                    <p>Количество страниц: {{book.numberPages | number}}</p>
-                    <p>Жанр: {{book.genre}}</p>
+                <li *ngFor="let author of authors">
+
+                    <div class="author-cart">
+                        <button type="button" (click)="edit(author)">edit</button>
+                        <button type="button" (click)="deleteSave(author)">delete</button>
+                        <div>
+                            <p>id: {{author.id}}</p>
+                            <p>Фамилия: {{author.surname}}</p>
+                            <p>Имя: {{author.name}}</p>
+                            <p>Отчество: {{author.patronymic}}</p>
+                            <p>Дата рождения: {{author.dateBirth | date:"dd.MM.yyyy" }}</p>
+                        </div>
+
+                        <div>
+                            <h6>Список книг</h6>
+                            <div class="author-cart-books">
+                                <div class="author-cart-book" *ngFor="let book of author.bookList">
+                                    <p>Название: {{book.title}}</p>
+                                    <p>Количество страниц: {{book.numberPages | number}}</p>
+                                    <p>Жанр: {{book.genre}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </li>
             </ul>
-        </li>
-    </ul>
-</div>
+        </div>
 
-<div>
-    <h1>Книги</h1>
-    <div *ngFor="let book of books">
-        <p>id: {{book.id}}</p>
-        <p>Название: {{book.title}}</p>
-        <p>Количество страниц: {{book.numberPages | number}}</p>
-        <p>Жанр: {{book.genre}}</p>
-    </div>
-</div>
+        <h5>Книги</h5>
+        <div class="books">
+            <div *ngFor="let book of books">
+                <p>id: {{book.id}}</p>
+                <p>Название: {{book.title}}</p>
+                <p>Количество страниц: {{book.numberPages | number}}</p>
+                <p>Жанр: {{book.genre}}</p>
+            </div>
+        </div>
 
-<div>
-    <h1>Жанры</h1>
-    <div *ngFor="let genre of genres">
-        <p>Жанр: {{genre}}</p>
+        <h5>Жанры</h5>
+        <div class="genres">
+            <div *ngFor="let genre of genres">
+                <p>Жанр: {{genre}}</p>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,0 +1,61 @@
+div.main{
+    display:flex;
+    font-size: 12px;
+}
+
+div.left-commant{
+    width: 400px;
+    background-color: lightgreen;
+    height:500px;
+    overflow: auto;
+    padding:15px;
+}
+div.edit-author{
+    background-color: lightyellow;
+    height:300px;
+    overflow: auto;
+    padding:10px;
+}
+
+
+div.center-data{
+    width: 100%;
+    background-color: lightgray;
+    height:500px;
+    overflow: auto;
+    padding:15px;
+    div.authors, div.books{
+        overflow: scroll;
+        height: 200px;
+        background-color: lightblue;
+    }
+     div.genres{
+        overflow: scroll;
+        height: 100px;
+        background-color: lightblue;
+    }
+
+}
+div.author-cart{
+    display:flex;
+    padding: 5px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+div.author-cart-books{
+    display:flex;
+     padding: 5px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+div.author-cart-book,
+div.author-cart-books-edit{
+    padding: 5px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.alert-danger{
+    color:red;
+}
