@@ -32,7 +32,7 @@ export class ShowAllComponent implements OnInit {
     this.refreshAll();
   }
   refreshAll() {
-    this.editAuthor = new Author();
+    this.add();
     this.refreshAuthors();
     this.refreshBooks();
     this.refreshGenres();
@@ -42,7 +42,7 @@ export class ShowAllComponent implements OnInit {
     this.authorService.list().subscribe({
       next: (result: Author[]) => {
         this.authors = result;
-        console.log(`получено авторов: ${result.length}`)
+        console.log(`получено авторов: ${(result ? result.length : 0)}`)
       },
       error: error => {
         console.error("AuthorService list error", error);
@@ -55,7 +55,7 @@ export class ShowAllComponent implements OnInit {
     this.bookService.list().subscribe({
       next: (result: Book[]) => {
         this.books = result;
-        console.log(`получено книг: ${result.length}`)
+        console.log(`получено книг: ${(result ? result.length : 0)}`)
       },
       error: error => {
         console.error("BookService list error", error);
@@ -68,7 +68,7 @@ export class ShowAllComponent implements OnInit {
     this.genreService.list().subscribe({
       next: (result: string[]) => {
         this.genres = result;
-        console.log(`получено жанров: ${result.length}`)
+        console.log(`получено жанров: ${(result ? result.length : 0)}`)
       },
       error: error => {
         console.error("GenreService list error", error);
@@ -80,6 +80,7 @@ export class ShowAllComponent implements OnInit {
 
   add() {
     this.editAuthor = new Author();
+    this.editAuthor.bookList = [];
     this.isEditNew = true;
   }
   addBook() {
