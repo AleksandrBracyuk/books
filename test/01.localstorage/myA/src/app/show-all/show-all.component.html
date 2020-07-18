@@ -47,7 +47,7 @@
                     <div class="booklist author-cart-books-edit">
 
                         <div class="author-cart-book" *ngFor="let book of editAuthor.bookList">
-                            <button type="button" (click)="deleteBook()">delete</button>
+                            <button type="button" (click)="deleteBook(book)">delete</button>
                             <div class="form-group">
                                 <label for="title">Название: </label>
                                 <input id="title" class="form-control" name="booktitle" [(ngModel)]="book.title"

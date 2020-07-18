@@ -17,11 +17,15 @@ export class BookService {
 
       //собрать книги у авторов:
       let books: Book[] = [];
-      authors.forEach(author => {
-        author.bookList.forEach(book => {
-          books.push(book);
+      if (authors) {
+        authors.forEach(author => {
+          if (author.bookList) {
+            author.bookList.forEach(book => {
+              books.push(book);
+            });
+          }
         });
-      });
+      }
 
       observer.next(books);
       observer.complete();
